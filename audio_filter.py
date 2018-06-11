@@ -5,7 +5,7 @@ from scipy.io.wavfile import write
 from scipy import signal
 
 # Replace this with the location of your downloaded file.
-(Frequency, array) = read('C:\\Users\\user\\PycharmProjects\\FinalYearProject\\test.wav') # Reading the sound file.
+(Frequency, array) = read('test.wav') # Reading the sound file.
 
 len(array) # length of our array
 

@@ -18,5 +18,5 @@ sig = sig / convert_16_bit
 musicData = np.array(sig)
 ceps = mfcc(sig,samplerate=rate,preemph=0,nfft=1103)
 df = pd.DataFrame(ceps)
-df.to_csv("mfcctest1.csv")
+df.to_csv("test1.csv")
 print(ceps)
