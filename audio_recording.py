@@ -1,3 +1,5 @@
+import scipy
+
 import pyaudio
 import wave
 
@@ -18,8 +20,9 @@ frames = []
 
 for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     data = stream.read(CHUNK)
+
     frames.append(data)
-print ("I heard you")
+print("I heard you")
 
 stream.stop_stream()
 stream.close()
@@ -31,3 +34,10 @@ waveFile.setsampwidth(audio.get_sample_size(FORMAT))
 waveFile.setframerate(RATE)
 waveFile.writeframes(b''.join(frames))
 waveFile.close()
+
+
+
+
+
+
+

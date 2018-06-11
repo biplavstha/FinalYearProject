@@ -6,11 +6,11 @@ import os
 from python_speech_features import mfcc, numpy
 from scipy.io import wavfile
 import pandas as pd
-MFCC_dir="F:\\projects\\python\\FinalYearProject\\mfcc_csv"
+MFCC_dir = "F:\\projects\\python\\FinalYearProject\\mfcc_csv"
 
 
-mfccs=[]
-file='test.wav'
+mfccs = []
+file = 'test.wav'
 print (file)
 (rate,sig) = scipy.io.wavfile.read(file)
 convert_16_bit = float(2 ** 15)
