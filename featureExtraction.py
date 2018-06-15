@@ -8,15 +8,15 @@ from scipy.io import wavfile
 import pandas as pd
 MFCC_dir = "F:\\projects\\python\\FinalYearProject\\mfcc_csv"
 
-
-mfccs = []
-file = 'test.wav'
-print (file)
-(rate,sig) = scipy.io.wavfile.read(file)
-convert_16_bit = float(2 ** 15)
-sig = sig / convert_16_bit
-musicData = np.array(sig)
-ceps = mfcc(sig,samplerate=rate,preemph=0,nfft=1103)
-df = pd.DataFrame(ceps)
-df.to_csv("test1.csv")
-print(ceps)
+def computeFeatures():
+    file = 'test.wav'
+    print (file)
+    (rate,sig) = scipy.io.wavfile.read(file)
+    convert_16_bit = float(2 ** 15)
+    sig = sig / convert_16_bit
+    musicData = np.array(sig)
+    ceps = mfcc(sig,samplerate=rate,preemph=0,nfft=1103)
+    np.save("testmfcc.csv",ceps)
+    # df = pd.DataFrame(ceps)
+    # df.to_csv("test1.csv")
+    print(ceps)
