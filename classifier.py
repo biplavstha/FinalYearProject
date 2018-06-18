@@ -3,13 +3,14 @@ from sklearn import svm
 import pickle
 import os
 from sklearn import preprocessing
+from sklearn.utils import shuffle
 import random
 import pandas as pd
 
 MFCC_dir="F:\\projects\\python\\FinalYearProject\\mfcc\\"
 FFT_dir="F:\\projects\\python\\FinalYearProject\\fft\\"
 #emotions = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
-emotions = ['1','2','3','4','5','6','7','8']
+emotions = ['3','6','4','5']
 
 def read_fft():
     ffts=[]
@@ -102,6 +103,7 @@ print("Training..................")
 featureList=getFeatures()
 print("ajshfd")
 print(featureList)
+shuffle(featureList)
 features=featureList[0]
 labels=featureList[1]
 
@@ -110,6 +112,7 @@ labels=featureList[1]
 supportVM = svm.SVC(kernel='linear', C=100, probability=True)
 print("svmsvc vayo")
 npa = np.asarray(features)
+# npa = np.add(npa,np.var(npa))
 npl = np.asarray(labels)
 
 # npap = preprocessing.scale(npa)
@@ -120,7 +123,7 @@ print("array banayo")
 # npa = sklearn.preprocessing.scale(npa)
 data = supportVM.fit(npa, npl)
 print("fit vayo")
-pickle.dump(data, open('classifier.pkl', 'wb'))
+pickle.dump(data, open('classifier//linearclassifier.pkl', 'wb'))
 print("Score (approx).......................")
 print(supportVM.predict_proba(npa))
 print ("success!")
