@@ -1,18 +1,15 @@
-# import featureExtraction
 import pickle
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import os
 import scipy
 from sklearn import preprocessing
-from sklearn import svm
 from matplotlib import pylab
-from sklearn.utils import shuffle
+import featureExtraction
 
 MFCC_dir="F:\\projects\\python\\FinalYearProject\\mfcc\\"
 FFT_dir="F:\\projects\\python\\FinalYearProject\\fft\\"
-emotions = ['3','4','5','6']
-
+emotions = ['happy','sad','anger','fearful']
 def plot_confusion_matrix(cm, genre_list, title):
     pylab.clf()
     pylab.matshow(cm, fignum=False, cmap='Blues',
@@ -46,7 +43,6 @@ def read_fft():
 
 def read_mfcc():
     mfccs=[]
-    mfccs2=[]
     for emo in emotions:
         mfccDir=MFCC_dir+emo+"\\test"
         for file in os.listdir(mfccDir):
@@ -55,18 +51,9 @@ def read_mfcc():
             mf = np.mean(mfcc_values)
             mfccs.append(mfcc_values)
     for i in range(len(mfccs)):
-        # print(len(mfccs[i]))
-        #     # print(mfccs[i].shape)
         length = len(mfccs[i])
-        #     # print("...........")
-        #     if len(mfccs[i]) == 526:
-        #         print(mfccs[i][525])
-        #     # print("old length" + str(length))
         if length < 526:
             mfccs[i].resize((526, 13), refcheck=False)
-    # for i in range(len(mfccs)):
-    #     print(len(mfccs[i]))
-    # print("thulo")
     return mfccs
 
 def readFeatures():
@@ -87,23 +74,18 @@ def getFeatures():
         features.append(individual_feature)
     features = preprocessing.scale(features)
     print("Feature To Use....")
-    #print(features)
-
-    # print(labels)
-    # print(len(features),len(labels))
-    # print(len(features[0]))
     return [features, labels]
 def all():
     print("Testing....")
     result=[]
     count=0
-    # featureExtraction.computeFeatures()
     featureList = getFeatures()
     features = featureList[0]
-    # features = preprocessing.scale(features)
+    features = preprocessing.scale(features)
     labels = featureList[1]
     print('features length')
     print(len(features))
+
     #accuracy testing
     print(len(labels))
     t_data = pickle.load(open('classifier//linearclassifier.pkl', 'rb'))
@@ -132,6 +114,7 @@ def all():
 
 # individual testing
 def individual():
+    # featureExtraction.extractFeatures()
     ffts=[]
     mfccs=[]
     features=[]
@@ -159,6 +142,7 @@ def individual():
     ans=t_data.predict(np.asanyarray(features).reshape(1,-1))[0]
     print("answer is")
     print(ans)
+    return (ans)
 
-individual()
-# all()
+all()
+# individual()

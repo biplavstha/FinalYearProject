@@ -4,14 +4,12 @@ import os
 from python_speech_features import mfcc, numpy
 from scipy.io import wavfile
 import math
-import pandas as pd
 
-#"F:\\projects\\python\\FinalYearProject\\testdatafeatures\\"
 data_dir = "F:\\projects\\python\\FinalYearProject\\testingdata\\"
 mfcc_dir ="F:\\projects\\python\\FinalYearProject\\testdatafeatures\\"
 fft_dir = "F:\\projects\\python\\FinalYearProject\\testdatafeatures\\"
 
-
+#extract FFT of the enitre training data set
 def get_window(N):
     window=[]
     for i in range(N):
@@ -25,19 +23,13 @@ for f in os.listdir(data_dir):
     convert_16_bit = float(2 ** 15)
     data=data/convert_16_bit
     data=np.array(data[:2048])
-    print("***********")
-    print(data.shape)
-    print('***************')
     win_data=data*get_window(len(data))
     fft_feature= scipy.fft(win_data)
-    # base_filename, ext=os.path.splitext(file)
-    # base_filename=base_filename.rsplit("\\",1)[1]
-    # new_filename=base_filename+".csv"
-    # save(FFT_dir+"\\"+key, fft_feature, new_filename, genre, "FFT")
     # df = pd.DataFrame(fft_feature)
     # df.to_csv(fft_dir + f + "-fft.csv")
     np.save(fft_dir+f+"fft.csv",fft_feature)
 
+#extract mfcc of the enitre training dataset
 for f in os.listdir(data_dir):
     (rate, sig) = scipy.io.wavfile.read(data_dir + f, 'r')
     convert_16_bit = float(2 ** 15)

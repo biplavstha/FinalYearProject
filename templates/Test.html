@@ -1,10 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Final Year Project</title>
+
+    <!-- Bootstrap core CSS -->
+      <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" >
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel=stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/p5.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/p5.sound.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/custom.js')}}"></script>
+
+      <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/agency.min.css')}}" rel="stylesheet">
+      <style>
+        #myProgress {
+          width: 100%;
+          background-color: #ddd;
+        }
+
+        #myBar {
+          width: 1%;
+          height: 30px;
+          background-color: #4CAF50;
+        }
+      </style>
+      <style>
+        #emotions {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #emotions td, #emotions th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #emotions tr:nth-child(even){background-color: black;}
+
+        #emotions tr:hover {background-color: #ddd;}
+
+        #emotions th {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            text-align: left;
+            background-color: black;
+            color: white;
+        }
+    </style>
+    <script>
+        var mic, recorder, soundFile;
+        function move() {
+          var elem = document.getElementById("myBar");
+          var width = 1;
+          var id = setInterval(frame, 33.33);
+          function frame() {
+            if (width >= 100) {
+              clearInterval(id);
+            } else {
+              width++;
+              elem.style.width = width + '%';
+            }
+          }
+        }
+      function setup() {
+          // body...
+
+         mic = new p5.AudioIn();
+         mic.start(mic);
+         recorder = new p5.SoundRecorder();
+         recorder.setInput(mic);
+
+         soundFile = new p5.SoundFile();
+
+      }
+      function start(){
+{#        console.log("here");#}
+{#        var myObject;#}
+{#        myObject = new XMLHttpRequest("Scripting.FileSystemObject");#}
+{#        var file = new File('F://projects//python//FinalYearProject//testingdata//test.wav')#}
+{#        if (file.exists) {#}
+{#                console.log("first if");#}
+{#            File.DELETE("F://projects//python//FinalYearProject//testingdata//test.wav");#}
+{#        }#}
+        if (mic.enabled) {
+                move();
+                recorder.record(soundFile);
+                setTimeout(stop, 3000);
+        }
+      }
+      function stop(){
+        recorder.stop();
+        saveSound(soundFile,"test.wav");
+      }
+    </script>
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/index">Project</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="index.html#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="index.html#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead">
+      <div class="container">
+        <div class="intro-text" style="padding-top: 110px">
+          <h1 style="align-self: center"> <strong>Accuracy 75%</strong></h1>
+          <table id="emotions">
+              <tr>
+                  <th style=" background-color: white;
+            color: black;">True Class</th>
+                  <th style=" background-color: white;
+            color: black; text-align: center" colspan="4">Predicted Class</th>
+              </tr>
+              <tr>
+                <th>Emotion</th>
+                <th>Happy</th>
+                <th>Sad</th>
+                <th>Angry</th>
+                <th>Fearful</th>
+              </tr>
+              <tr>
+                <th width="20%">Happy</th>
+                <td>15</td>
+                <td>1</td>
+                <td>4</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <th width="20%">Sad</th>
+                <td>1</td>
+                <td>16</td>
+                <td>1</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <th width="20%">Angry</th>
+                <td>2</td>
+                <td>2</td>
+                <td>15</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <th width="20%">Fearful</th>
+                <td>1</td>
+                <td>4</td>
+                <td>1</td>
+                <td>14</td>
+              </tr>
+          </table>
+          <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#test" style="margin-top: 100px">Test</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Body -->
+
+    <section id="test">
+      <div class="container">
+          <form method='post' action="{{ url_for('upload') }}" enctype='multipart/form-data' onsubmit="validateUploadAudio()">
+                  <h1><label for="inputAudio">Upload An Audio File</label></h1>
+                  <input type="file" class="form-control" id="inputfile" name="inputfile" aria-describedby="helpBlock">
+              <button type="submit" class="btn btn-primary btn-success">Submit</button>
+              <h4 id="testMsg">{{ uploadmsg }}</h4>
+          </form>
+        <div>
+
+
+        <h1><label for="inputAudio">Record a 3 second audio</label></h1>
+         <div class="container">
+             <div id="myProgress">
+                <div id="myBar"></div>
+             </div>
+{#            <form action="/record" method="post">#}
+{#                <h4 id="recordmsg">{{ recordmessage }}</h4>#}
+                <button style="margin-top: 10px" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="start()">Record Audio</button>
+{#            </form>#}
+         </div>
+
+         <div style="align-self: center" class="container">
+             <form  action="/process" method="post">
+                <h4 id="testMsg">{{ testMessage }}</h4>
+                <button style="align-self: center" class = "btn btn-primary btn-xl text-uppercase js-scroll-trigger" >Run Test</button>
+            </form>
+         </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <hr>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="copyright">Copyright &copy; Final Year Project 2018</span>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/BiplavStha">
+                  <i class="fa fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.facebook.com/shrestha.biplav">
+                  <i class="fa fa-facebook"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/prakriti-tuladhar-046228125/">
+                  <i class="fa fa-linkedin"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <span class="copyright">Biplav Shrestha &nbsp;&nbsp;&nbsp;&nbsp; Prakriti S. Tuladhar</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+    <!-- Contact form JavaScript -->
+    <script src="{{ url_for('static', filename='js/jqBootstrapValidation.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/contact_me.js')}}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{ url_for('static', filename='js/agency.min.js')}}"></script>
+
+  </body>
+
 </html>

@@ -1,39 +1,39 @@
-import scipy
-
 import pyaudio
 import wave
 
-FORMAT = pyaudio.paInt16
-CHANNELS = 2
-RATE = 44100
-CHUNK = 1024
-RECORD_SECONDS = 3
-WAVE_OUTPUT_FILENAME = "testingdata//test.wav"
+def recordaudio():
+    FORMAT = pyaudio.paInt16 #set format for the audio file to be saved
+    CHANNELS = 2 #set channels (mono, stereo) for the audio file to be saved
+    RATE = 44100 #set frame rate / frequecny of the audio file
+    CHUNK = 1024
+    RECORD_SECONDS = 3 #time duration of the recorded audio
+    WAVE_OUTPUT_FILENAME = "testingdata\\test.wav" #output location and name of the audio file
 
-audio = pyaudio.PyAudio()
+    audio = pyaudio.PyAudio()
 
-stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
+    stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
 
-print("listening.....")
+    print("listening.....")
 
-frames = []
+    frames = []
 
-for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
 
-    frames.append(data)
-print("I heard you")
+        frames.append(data)
+    print("Audio file has been recorded")
 
-stream.stop_stream()
-stream.close()
-audio.terminate()
+    stream.stop_stream()
+    stream.close()
+    audio.terminate()
 
-waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-waveFile.setnchannels(CHANNELS)
-waveFile.setsampwidth(audio.get_sample_size(FORMAT))
-waveFile.setframerate(RATE)
-waveFile.writeframes(b''.join(frames))
-waveFile.close()
+    #saving the audio file to the location
+    waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    waveFile.setnchannels(CHANNELS)
+    waveFile.setsampwidth(audio.get_sample_size(FORMAT))
+    waveFile.setframerate(RATE)
+    waveFile.writeframes(b''.join(frames))
+    waveFile.close()
 
 
 
