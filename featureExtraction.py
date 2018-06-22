@@ -20,6 +20,7 @@ def get_window(N):
 def extractFeatures():
     audio_filter.mono()
     #fft extraction
+    print("here")
     sample_rate, data = scipy.io.wavfile.read(file,'r')
     convert_16_bit = float(2 ** 15)
     data=data/convert_16_bit
@@ -41,5 +42,4 @@ def extractFeatures():
     np.save(feature_dir+"mfcc.csv",ceps)
     # df = pd.DataFrame(ceps)
     # df.to_csv(mfcc_dir + f + "-mfcc.csv")
-
 

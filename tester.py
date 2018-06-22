@@ -88,7 +88,7 @@ def all():
 
     #accuracy testing
     print(len(labels))
-    t_data = pickle.load(open('classifier//linearclassifier.pkl', 'rb'))
+    t_data = pickle.load(open('F://projects//python//FinalYearProject//classifier//linearclassifier.pkl', 'rb'))
     for i in range(len(labels)):
         ans=t_data.predict(np.asanyarray(features[i]).reshape(1,-1))[0]
         if ans==labels[i]:
@@ -114,20 +114,18 @@ def all():
 
 # individual testing
 def individual():
-    # featureExtraction.extractFeatures()
-    ffts=[]
-    mfccs=[]
-    features=[]
+    featureExtraction.extractFeatures()
+    print("eta")
+    ffts = []
+    mfccs = []
+    features = []
 
-    fft_values=scipy.load('testdatafeatures//fft.csv.npy')
-    # fft_values=scipy.load('03-01-06-01-01-01-01.wavfft.csv.npy')
-    fft_values=abs(fft_values)
+    fft_values = scipy.load('F://projects//python//FinalYearProject//testdatafeatures//fft.csv.npy')
+    fft_values = abs(fft_values)
     ffts.append(fft_values)
 
-    mfcc_values = scipy.load('testdatafeatures//mfcc.csv.npy')
-    # mfcc_values = scipy.load('03-01-06-01-01-01-01.wavmfcc.csv.npy')
+    mfcc_values = scipy.load('F://projects//python//FinalYearProject//testdatafeatures//mfcc.csv.npy')
     mfccs.append(mfcc_values)
-    print("lakjhsdf")
 
     mfccs[0].resize((526, 13), refcheck=False)
 
@@ -138,11 +136,12 @@ def individual():
             individual_feature = np.concatenate((np.array(val), individual_feature), axis=0)
         features.append(individual_feature)
 
-    t_data = pickle.load(open('classifier//linearclassifier.pkl','rb'))
-    ans=t_data.predict(np.asanyarray(features).reshape(1,-1))[0]
-    print("answer is")
+    t_data = pickle.load(
+        open('F://projects//python//FinalYearProject//classifier//linearclassifier.pkl', 'rb'))
+    ans = t_data.predict(np.asanyarray(features).reshape(1, -1))[0]
+    print("end")
     print(ans)
     return (ans)
 
-all()
+# all()
 # individual()

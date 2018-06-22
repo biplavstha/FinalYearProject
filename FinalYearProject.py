@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request
-import featureExtraction, scipy, numpy as np, pickle, os,threading
+import tester, scipy, numpy as np, pickle, os,wave
+import audio_recording
 
 UPLOAD_FOLDER = 'F://projects//python//FinalYearProject//testingdata//'
 ALLOWED_EXTENSION = {'wav'}
@@ -17,42 +18,43 @@ def index():
 
 @app.route('/test/')
 def test():
+    if os.path.isfile("F://projects//python//FinalYearProject//testingdata//test.wav"):
+        os.remove("F://projects//python//FinalYearProject//testingdata//test.wav")
     return render_template('Test.html')
 
 @app.route('/process', methods=['POST'])
 def startprocess():
-    try:
-        featureExtraction.extractFeatures()
+    if os.path.isfile("F://projects//python//FinalYearProject//testingdata//test.wav"):
 
-        ffts = []
-        mfccs = []
-        features = []
+        f = wave.open("F://projects//python//FinalYearProject//testingdata//test.wav", 'r')
+        frames = f.getnframes()
+        rate = f.getframerate()
+        print(frames)
+        print(rate)
+        duration = frames / float(rate)
+        print("###")
+        print(duration)
+        f.close()
+        if (duration > 3.5):
+            return render_template('test.html', testMessage="Audio File Longer than 3 seconds")
+        else:
+            try:
+                ans = tester.individual()
+                print("ans aayo")
+                testMessage = ans
+                print("eta ni aayo")
+                os.remove("F://projects//python//FinalYearProject//testingdata//test.wav")
+                print("remove remove")
+                return render_template('Test.html',testMessage="You sound "  + ans)
+            except:
+                return render_template('Test.html', testMessage="File not found")
+    else:
+            return render_template('Test.html', testMessage="Audio File not found")
 
-        fft_values = scipy.load('F://projects//python//FinalYearProject//testdatafeatures//fft.csv.npy')
-        # fft_values=scipy.load('03-01-06-01-01-01-01.wavfft.csv.npy')
-        fft_values = abs(fft_values)
-        ffts.append(fft_values)
-
-        mfcc_values = scipy.load('F://projects//python//FinalYearProject//testdatafeatures//mfcc.csv.npy')
-        # mfcc_values = scipy.load('03-01-06-01-01-01-01.wavmfcc.csv.npy')
-        mfccs.append(mfcc_values)
-
-        mfccs[0].resize((526, 13), refcheck=False)
-
-        for n in range(len(ffts)):
-            individual_feature = []
-            individual_feature = np.concatenate((np.array(ffts[n]), individual_feature), axis=0)
-            for val in mfccs[n][:526]:
-                individual_feature = np.concatenate((np.array(val), individual_feature), axis=0)
-            features.append(individual_feature)
-
-        t_data = pickle.load(open('F://projects//python//FinalYearProject//classifier//linearclassifier.pkl', 'rb'))
-        ans = t_data.predict(np.asanyarray(features).reshape(1, -1))[0]
-
-        testMessage = ans
-        return render_template('Test.html', testMessage=testMessage)
-    except:
-        return render_template('Test.html', testMessage="File not found")
+@app.route('/record', methods=['POST'])
+def record():
+    audio_recording.recordaudio()
+    return render_template('test.html',recordmsg = "Audio has been successfully recorded.")
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -64,15 +66,8 @@ def upload():
         print(UPLOAD_FOLDER + file.filename)
         return render_template('test.html', uploadmsg="file successfully uploaded begin processing")
     else:
-        return render_template('test.html', uploadmsg="file format not supported please upload wav file")
+        return render_template('test.html', uploadmsg="invalid file format or empty file")
 
-
-# @app.route('/record', methods=['POST'])
-# def record():
-#     if os.path.isfile("F://projects//python//FinalYearProject//testingdata//test.wav"):
-#         os.remove("F://projects//python//FinalYearProject//testingdata//test.wav")
-#
-#     return render_template('test.html', recordmessag="Audio recorded")
 
 def allowed_file(filename):
     return '.' in filename and \

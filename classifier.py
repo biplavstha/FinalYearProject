@@ -1,9 +1,10 @@
 import numpy as np, scipy
-from sklearn import svm
+from sklearn import svm, preprocessing, datasets
 import pickle
 import os
-from sklearn import preprocessing
 from sklearn.utils import shuffle
+import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 MFCC_dir="F:\\projects\\python\\FinalYearProject\\mfcc\\" #directory of stored mfcc values
@@ -67,16 +68,17 @@ labels=featureList[1]
 print()
 
 # print(features)
-# supportVM = svm.SVC(kernel='linear', C=100, probability=True)
-# print("svmsvc vayo")
-# npa = np.asarray(features)
-# npa = np.subtract(npa,np.mean(npa))
-# npl = np.asarray(labels)
-#
-# print("array banayo")
-# data = supportVM.fit(npa, npl)
-# print("fit vayo")
-# pickle.dump(data, open('classifier//linearclassifier.pkl', 'wb'))
-# print("Score (approx).......................")
-# print(supportVM.predict_proba(npa))
-# print ("success!")
+supportVM = svm.SVC(kernel='linear', C=100, probability=True)
+print("svmsvc vayo")
+npa = np.asarray(features)
+npa = np.subtract(npa,np.mean(npa))
+npl = np.asarray(labels)
+
+print("array banayo")
+data = supportVM.fit(npa, npl)
+print("fit vayo")
+pickle.dump(data, open('classifier//linearclassifier.pkl', 'wb'))
+print("Score (approx).......................")
+
+print(supportVM.predict_proba(npa))
+print ("success!")
