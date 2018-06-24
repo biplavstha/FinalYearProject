@@ -35,7 +35,7 @@ def startprocess():
         print("###")
         print(duration)
         f.close()
-        if (duration > 3.5):
+        if (duration > 5):
             return render_template('test.html', testMessage="Audio File Longer than 3 seconds")
         else:
             try:
@@ -45,6 +45,8 @@ def startprocess():
                 print("eta ni aayo")
                 os.remove("F://projects//python//FinalYearProject//testingdata//test.wav")
                 print("remove remove")
+                if (ans == "anger"):
+                    ans = "angry"
                 return render_template('Test.html',testMessage="You sound "  + ans)
             except:
                 return render_template('Test.html', testMessage="File not found")
